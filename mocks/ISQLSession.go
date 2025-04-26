@@ -5,6 +5,7 @@ package mocks
 import (
 	context "context"
 
+	sqlwrap "github.com/kornharem08/gorm"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -70,6 +71,24 @@ func (_m *ISQLSession) Delete(ctx context.Context, conds ...interface{}) error {
 	return r0
 }
 
+// Exec provides a mock function with given fields: ctx
+func (_m *ISQLSession) Exec(ctx context.Context) error {
+	ret := _m.Called(ctx)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Exec")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context) error); ok {
+		r0 = rf(ctx)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // Find provides a mock function with given fields: ctx, result, conds
 func (_m *ISQLSession) Find(ctx context.Context, result interface{}, conds ...interface{}) error {
 	var _ca []interface{}
@@ -112,6 +131,135 @@ func (_m *ISQLSession) First(ctx context.Context, result interface{}, conds ...i
 	return r0
 }
 
+// Joins provides a mock function with given fields: ctx, query, args
+func (_m *ISQLSession) Joins(ctx context.Context, query string, args ...interface{}) sqlwrap.ISQL {
+	var _ca []interface{}
+	_ca = append(_ca, ctx, query)
+	_ca = append(_ca, args...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Joins")
+	}
+
+	var r0 sqlwrap.ISQL
+	if rf, ok := ret.Get(0).(func(context.Context, string, ...interface{}) sqlwrap.ISQL); ok {
+		r0 = rf(ctx, query, args...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(sqlwrap.ISQL)
+		}
+	}
+
+	return r0
+}
+
+// Limit provides a mock function with given fields: ctx, limit
+func (_m *ISQLSession) Limit(ctx context.Context, limit int) sqlwrap.ISQL {
+	ret := _m.Called(ctx, limit)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Limit")
+	}
+
+	var r0 sqlwrap.ISQL
+	if rf, ok := ret.Get(0).(func(context.Context, int) sqlwrap.ISQL); ok {
+		r0 = rf(ctx, limit)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(sqlwrap.ISQL)
+		}
+	}
+
+	return r0
+}
+
+// Offset provides a mock function with given fields: ctx, offset
+func (_m *ISQLSession) Offset(ctx context.Context, offset int) sqlwrap.ISQL {
+	ret := _m.Called(ctx, offset)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Offset")
+	}
+
+	var r0 sqlwrap.ISQL
+	if rf, ok := ret.Get(0).(func(context.Context, int) sqlwrap.ISQL); ok {
+		r0 = rf(ctx, offset)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(sqlwrap.ISQL)
+		}
+	}
+
+	return r0
+}
+
+// Order provides a mock function with given fields: ctx, value
+func (_m *ISQLSession) Order(ctx context.Context, value string) sqlwrap.ISQL {
+	ret := _m.Called(ctx, value)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Order")
+	}
+
+	var r0 sqlwrap.ISQL
+	if rf, ok := ret.Get(0).(func(context.Context, string) sqlwrap.ISQL); ok {
+		r0 = rf(ctx, value)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(sqlwrap.ISQL)
+		}
+	}
+
+	return r0
+}
+
+// Preload provides a mock function with given fields: ctx, query, args
+func (_m *ISQLSession) Preload(ctx context.Context, query string, args ...interface{}) sqlwrap.ISQL {
+	var _ca []interface{}
+	_ca = append(_ca, ctx, query)
+	_ca = append(_ca, args...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Preload")
+	}
+
+	var r0 sqlwrap.ISQL
+	if rf, ok := ret.Get(0).(func(context.Context, string, ...interface{}) sqlwrap.ISQL); ok {
+		r0 = rf(ctx, query, args...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(sqlwrap.ISQL)
+		}
+	}
+
+	return r0
+}
+
+// Raw provides a mock function with given fields: ctx, sql, values
+func (_m *ISQLSession) Raw(ctx context.Context, sql string, values ...interface{}) sqlwrap.ISQL {
+	var _ca []interface{}
+	_ca = append(_ca, ctx, sql)
+	_ca = append(_ca, values...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Raw")
+	}
+
+	var r0 sqlwrap.ISQL
+	if rf, ok := ret.Get(0).(func(context.Context, string, ...interface{}) sqlwrap.ISQL); ok {
+		r0 = rf(ctx, sql, values...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(sqlwrap.ISQL)
+		}
+	}
+
+	return r0
+}
+
 // Rollback provides a mock function with no fields
 func (_m *ISQLSession) Rollback() error {
 	ret := _m.Called()
@@ -123,6 +271,24 @@ func (_m *ISQLSession) Rollback() error {
 	var r0 error
 	if rf, ok := ret.Get(0).(func() error); ok {
 		r0 = rf()
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Transaction provides a mock function with given fields: ctx, fc
+func (_m *ISQLSession) Transaction(ctx context.Context, fc func(sqlwrap.ISQL) error) error {
+	ret := _m.Called(ctx, fc)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Transaction")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, func(sqlwrap.ISQL) error) error); ok {
+		r0 = rf(ctx, fc)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -143,6 +309,47 @@ func (_m *ISQLSession) Update(ctx context.Context, column string, value interfac
 		r0 = rf(ctx, column, value)
 	} else {
 		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Updates provides a mock function with given fields: ctx, value
+func (_m *ISQLSession) Updates(ctx context.Context, value interface{}) error {
+	ret := _m.Called(ctx, value)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Updates")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, interface{}) error); ok {
+		r0 = rf(ctx, value)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Where provides a mock function with given fields: ctx, query, args
+func (_m *ISQLSession) Where(ctx context.Context, query interface{}, args ...interface{}) sqlwrap.ISQL {
+	var _ca []interface{}
+	_ca = append(_ca, ctx, query)
+	_ca = append(_ca, args...)
+	ret := _m.Called(_ca...)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Where")
+	}
+
+	var r0 sqlwrap.ISQL
+	if rf, ok := ret.Get(0).(func(context.Context, interface{}, ...interface{}) sqlwrap.ISQL); ok {
+		r0 = rf(ctx, query, args...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(sqlwrap.ISQL)
+		}
 	}
 
 	return r0

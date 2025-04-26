@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+      - ./sqlwrap/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - app-network
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "YourStrong@Passw0rd" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  # Service to initialize the database
+  db-init:
+    image: mcr.microsoft.com/mssql-tools
+    container_name: sqlserver-init
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./sqlwrap/init-db.sql:/init-db.sql
+    command: /opt/mssql-tools/bin/sqlcmd -S db -U sa -P "YourStrong@Passw0rd" -i /init-db.sql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  sqldata: 
